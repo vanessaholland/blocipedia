@@ -8,7 +8,7 @@ RSpec.describe UsersController, type: :controller do
   context 'guest' do
     describe 'GET show' do
       it 'returns http redirect' do
-        get :show, id: @user.id
+        get :show, params: { id: @user.id }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -20,11 +20,11 @@ RSpec.describe UsersController, type: :controller do
     end
     describe 'GET show' do
       it 'returns http success' do
-        get :show, id: @user.id
+        get :show, params: { id: @user.id }
         expect(response).to have_http_status(:success)
       end
       it 'renders the show view' do
-        get :show, id: @user.id
+        get :show, params: { id: @user.id }
         expect(response).to render_template(:show)
       end
     end
@@ -32,17 +32,17 @@ RSpec.describe UsersController, type: :controller do
 
   context 'premium user' do
     before do
-      sign_in(@user)
-      @user.premium!
+      @premium_user = User.create!(email: 'example@test.com', password: 'password', password_confirmation: 'password', role: 'premium', confirmed_at: Time.now)
+      sign_in(@premium_user)
     end
     describe 'GET show' do
       it 'returns http success' do
-        get :show, id: @user.id
+        get :show, params: { id: @premium_user.id }
         expect(response).to have_http_status(:success)
       end
 
       it 'renders the show view' do
-        get :show, id: @user.id
+        get :show, params: { id: @premium_user.id }
         expect(response).to render_template(:show)
       end
     end

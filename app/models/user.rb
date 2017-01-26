@@ -5,4 +5,24 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   has_many :wikis
+
+  after_initialize :standardizer
+
+  def standard?
+    role == 'standard'
+  end
+
+  def premium?
+    role == 'premium'
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  private
+
+  def standardizer
+    self.role ||= 'standard'
+ end
 end

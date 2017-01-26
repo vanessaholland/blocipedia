@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.0.1'
 gem 'rails-controller-testing'
 gem 'devise'
+gem 'pundit'
+
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
@@ -35,6 +37,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.0'
+  gem 'shoulda'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :development do
