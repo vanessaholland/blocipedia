@@ -1,11 +1,11 @@
-require 'random_data'
+require 'faker'
 
 roles = %w(premium standard)
 
 5.times do
   user = User.new(
-    email:    RandomData.random_email,
-    password: RandomData.random_sentence,
+    email:    Faker::Internet.email,
+    password: Faker::Lorem.characters(7),
     role: roles.sample
   )
   user.skip_confirmation!
@@ -33,8 +33,8 @@ users = User.all
 50.times do
   Wiki.create!(
     user: users.sample,
-    title: RandomData.random_sentence,
-    body:  RandomData.random_paragraph,
+    title: Faker::LordOfTheRings.character,
+    body:  Faker::ChuckNorris.fact,
     private: false
   )
 end

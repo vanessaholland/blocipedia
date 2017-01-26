@@ -1,5 +1,7 @@
+require 'faker'
+
 FactoryGirl.define do
-  pw = RandomData.random_sentence
+  pw = Faker::Cat.name
   factory :user do
     sequence(:email) { |n| "user#{n}@factory.com" }
     password pw
