@@ -1,7 +1,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  pw = Faker::Cat.name
+  pw = Faker::Lorem.characters(6)
   factory :user do
     sequence(:email) { |n| "user#{n}@factory.com" }
     password pw

@@ -39,6 +39,15 @@ users = User.all
   )
 end
 
+20.times do
+  Charge.create!(
+    user: users.sample,
+    amount: 19.99,
+    successful: false
+  )
+end
+
 puts 'Seed finished'
 puts "#{User.count} users created"
 puts "#{Wiki.count} wikis created"
+puts "#{Charge.count} charges created"

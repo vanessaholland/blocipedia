@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   has_many :wikis
+  has_many :charges
 
   after_initialize :standardizer
 
