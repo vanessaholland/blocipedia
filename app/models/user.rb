@@ -25,5 +25,5 @@ class User < ApplicationRecord
 
   def standardizer
     self.role ||= 'standard'
- end
+  end
 end

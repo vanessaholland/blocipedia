@@ -52,13 +52,16 @@ class ChargesController < ApplicationController
    end
 
   def downgrade
-   current_user.update_attributes(role: 'standard')
-   if current_user.standard?
-     flash[:notice] = 'You basic'
-     redirect_to manage_account_path(current_user)
-   else
-     flash[:notice] = 'Sorry, something went wrong. Please try again later'
-     redirect_to manage_account_path(current_user)
-   end
+  current_user.update_attributes(role: 'standard')
+  if current_user.standard?
+    flash[:notice] = 'Ya basic'
+    current_user.wikis.each do |wiki|
+      wiki.update_attribute(:private, false)
+    end
+    redirect_to manage_account_path(current_user)
+  else
+    flash[:notice] = 'Sorry, something went wrong. Please try again later'
+    redirect_to manage_account_path(current_user)
+  end
  end
 end
