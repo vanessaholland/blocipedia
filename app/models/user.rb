@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :wikis
   has_many :charges
+  has_many :collaborators
+  has_many :collaborations, through: :collaborators, source: :wiki
 
   after_initialize :standardizer
 
@@ -21,6 +23,14 @@ class User < ApplicationRecord
     role == 'admin'
   end
 
+  def collaborations
+      wikis = []
+      Collaborator.where(user: self).each do |collaboration|
+        wikis << Wiki.find(collaboration.wiki_id)
+      end
+      wikis
+    end
+    
   private
 
   def standardizer

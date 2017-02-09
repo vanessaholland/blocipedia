@@ -5,6 +5,14 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.find(params[:id])
+    @collabs = Collaborator.where(wiki_id: @wiki.id)
+    collaborator_list = []
+    @collabs.each do |collab|
+      iduser = collab.user_id
+      collaboration_user = User.where(id: iduser).first
+      collaborator_list.push(collaboration_user)
+    end
+    @collaborations = collaborator_list
   end
 
   def new
@@ -23,6 +31,13 @@ class WikisController < ApplicationController
     @wiki.user = current_user
 
     if @wiki.save
+      unless params[:wiki][:collaborations] == ""
+        user_list = params[:wiki][:collaborations]
+        user_list.split(",").each do |email|
+          user = User.where(email: email).first
+          @my_collab = collaboration(user, @wiki)
+        end
+      end
       flash[:notice] = 'Wiki was saved.'
       redirect_to @wiki
     else
@@ -38,7 +53,15 @@ class WikisController < ApplicationController
     @wiki.body = params[:wiki][:body]
     @wiki.private = params[:wiki][:private]
 
+
     if @wiki.save
+      unless params[:wiki][:collaborations] == ""
+        user_list = params[:wiki][:collaborations]
+        user_list.split(",").each do |email|
+          user = User.where(email: email).first
+          @my_collab = collaboration(user, @wiki)
+        end
+      end
       flash[:notice] = 'Wiki was updated.'
       redirect_to @wiki
     else

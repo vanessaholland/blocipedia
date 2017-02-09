@@ -2,7 +2,7 @@
 <div class="row">
    <div class="col-md-8">
      <% @wikis.each do |wiki| %>
-      <%unless wiki.private && current_user.standard?%>
+      <%if (wiki.private && wiki.user_id == current_user.id) || !wiki.private || wiki.collaborations.include?(current_user)%>
       <div class="media">
         <div class="media-body">
           <h4 class="media-heading">

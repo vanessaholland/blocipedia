@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   get 'show' => 'users#show'
   get 'manage_account' => 'charges#new'
 
-  resources :wikis
+  resources :wikis do
+    resources :collaborators
+  end
   resources :charges, only: [:new, :create]
   get 'downgrade' => 'charges#downgrade'
+  get 'remove_collaborator' => 'collaborators#destroy'
   root 'welcome#index'
 end

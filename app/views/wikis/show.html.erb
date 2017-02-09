@@ -5,11 +5,26 @@
           <small>
             submitted <%= time_ago_in_words(@wiki.created_at) %> ago by <%= @wiki.user.email %>
           </small>
-        </h1>
- <p><%= markdown(@wiki.body) %></p>
- <div class="col-md-4">
-   <% if current_user.role == 'admin' || current_user.role == 'premium' %>
-     <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
-     <%= link_to "Delete Post", [@wiki], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this wiki?' } %>
-   <%end%>
-</div>
+      </h1>
+        <p><%= markdown(@wiki.body) %></p>
+        <div class="col-md-4">
+          <% if current_user.role == 'admin' || current_user.role == 'premium' %>
+          <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
+          <%= link_to "Delete Post", [@wiki], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this wiki?' } %>
+          <%end%>
+        </div>
+      </div>
+    </div>
+ <% if @collaborations.count > 0 %>
+    <div class="media">
+      <div class="media-body">
+        Contributing Users:
+        <% @collaborations.each do |collab| %>
+        <h4 class="media-heading">
+          <%= collab.email %>
+          <%= link_to "Remove", remove_collaborator_path(:my_params => { :user_id => collab.id, :wiki_id => @wiki.id }), class: 'btn btn-danger', data: { confirm: 'Are you sure you want to remove this collaboration?' } %>
+        </h4>
+        <% end %>
+      </div>
+    </div>
+ <% end %>

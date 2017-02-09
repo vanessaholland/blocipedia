@@ -38,6 +38,7 @@ users = User.all
     private: false
   )
 end
+wikis = Wiki.all
 
 20.times do
   Charge.create!(
@@ -47,7 +48,15 @@ end
   )
 end
 
+10.times do
+  Collaborator.new(
+    user: users.sample,
+    wiki: wikis.sample
+  )
+end
+
 puts 'Seed finished'
 puts "#{User.count} users created"
 puts "#{Wiki.count} wikis created"
 puts "#{Charge.count} charges created"
+puts "#{Collaborator.count} collabs created"
